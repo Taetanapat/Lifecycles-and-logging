@@ -27,7 +27,9 @@ import androidx.core.app.ShareCompat
 import androidx.databinding.DataBindingUtil
 import com.example.android.dessertclicker.databinding.ActivityMainBinding
 import timber.log.Timber
-
+const val KEY_REVENUE = "revenue_key"
+const val KEY_DESSERT_SOLD = "dessert_sold_key"
+const val KEY_TIMER_SECONDS = "timer_seconds_key"
 class MainActivity : AppCompatActivity() {
 
     private var revenue = 0
@@ -66,6 +68,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dessertTimer = DessertTimer(this.lifecycle)
+        if (savedInstanceState != null){
+            revenue = savedInstanceState.getInt(KEY_REVENUE,0)
+            dessertTimer.secondsCount = savedInstanceState.getInt(KEY_TIMER_SECONDS, 0)
+            showCurrentDessert()
+            Timber.i("revenue = ${savedInstanceState.getInt(KEY_REVENUE,0)}")
+        }
         // Use Data Binding to get reference to the views
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -176,6 +184,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
+        outState?.putInt(KEY_REVENUE, revenue)
+        outState?.putInt(KEY_DESSERT_SOLD,dessertsSold)
+        outState?.putInt(KEY_TIMER_SECONDS,dessertTimer.secondsCount)
         Timber.i("onSaveInstanceState Called")
     }
     override fun onDestroy() {
