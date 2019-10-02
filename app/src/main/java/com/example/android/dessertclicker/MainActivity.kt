@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     /** Dessert Data **/
-
+    private lateinit var  dessertTimer: DessertTimer
     /**
      * Simple data class that represents a dessert. Includes the resource id integer associated with
      * the image, the price it's sold for, and the startProductionAmount, which determines when
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        dessertTimer = DessertTimer()
         // Use Data Binding to get reference to the views
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         //Log.i("MainActivity", "onStart Called")
+        dessertTimer.startTimer()
         Timber.i("onStart Called")
     }
 
@@ -169,6 +170,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
+        dessertTimer.stopTimer()
         Timber.i("onStop Called")
     }
 
